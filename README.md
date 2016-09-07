@@ -2,7 +2,7 @@ Author: Bakhtiyar Syed
 
 Overview:
 
-This is a standalone shell(equivalent to shell) written purely in C.
+This is a standalone shell(equivalent to BASH) written purely in C.
 The commands are executed via system calls.
 
 **Will add more features soon.**
