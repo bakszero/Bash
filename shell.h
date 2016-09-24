@@ -22,6 +22,7 @@ int lsh_echo(char ** args);
 int lsh_exit(char **args);
 
 void lsh_read_line();
+int piping (char **args);
 char ** redirect(char** args);
 int lsh_launch(char **args);
 char **lsh_split_line(char *line);
