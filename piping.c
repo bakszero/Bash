@@ -70,6 +70,9 @@ while(args[j]!=NULL &&  end!=1){
 sym[k] = NULL;
 j++;
 
+//char ** sym1;
+//sym1 = redirect(sym);
+
   if (i%2 == 0)
     pipe(q);
   else
@@ -84,6 +87,10 @@ j++;
 
   //In the child process
   if (pid == 0){
+
+    char ** sym1;
+    sym1 = redirect(sym);
+
 
       if (i==0){
         dup2(q[1],1);
@@ -112,7 +119,7 @@ j++;
           dup2(p[1],1);
         }
       }
-      if (execvp(sym[0],sym)==-1){
+      if (execvp(sym1[0],sym1)==-1){
         kill(getpid(),SIGTERM);
       }
     }
