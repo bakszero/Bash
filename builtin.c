@@ -55,7 +55,7 @@ int lsh_echo(char ** args)
     int i;
     i=1;
     while (args[i]!=NULL){
-      printf("%s\n", args[i]);
+      printf("%s ", args[i]);
       i++;
     }
   }
