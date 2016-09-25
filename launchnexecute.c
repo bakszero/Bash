@@ -11,7 +11,7 @@
 
 
 //Declaring the builtin functions and pointer to function
-char *builtin_str[]= { "cd", "pwd", "echo", "exit"};
+char *builtin_str[]= { "cd", "pwd", "echo", "quit"};
 int (*builtin_func[]) (char **) = { &lsh_cd, &lsh_pwd, &lsh_echo, &lsh_exit};
 
 //Return the no. of builtin
@@ -67,6 +67,7 @@ LABEL:
   //Child Process
   else if (pid == 0) {
 
+    //Call function to redirect
     args = redirect(args);
     int ret=execvp(args[0], args);
      if (ret== -1) {
