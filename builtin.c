@@ -11,7 +11,8 @@
 #include "shell.h"
 
 
-
+pid_t pid3;
+int status;
 
 
 
@@ -44,21 +45,40 @@ int lsh_pwd(char ** args)
    @param args List of args.  Given by user
    @return Always returns 1, to continue executing.
  */
-int lsh_echo(char ** args)
+int lsh_echo(char **args)
 {
   //Empty argument prints new line
   if(args[1]==NULL)
-    printf("\n" );
-
-  else
-  {
-    int i;
-    i=1;
-    while (args[i]!=NULL){
-      printf("%s ", args[i]);
-      i++;
+    {
+      printf("\n" );
+      return 1;
     }
-  }
+
+    pid3 = fork();
+    //Child process
+    if(pid3 <0)
+     {
+       perror("SHELL");
+     }
+    else if(pid3==0)
+    {
+      args = redirect(args);
+      int i;
+      i=1;
+      while (args[i]!=NULL){
+        write(1, args[i], strlen(args[i]));
+
+        i++;
+        }
+      write(1,"\n", 1);
+
+    exit(1) ;
+    }
+
+      waitpid(pid3,NULL,0);
+
+
+
   return 1;
 }
 
@@ -115,6 +135,6 @@ int lsh_cd(char **args)
  */
 int lsh_exit(char **args)
 {
-  if (strcmp(args[0],"exit")==0)
+  if (strcmp(args[0],"quit")==0)
     return 0;
 }
