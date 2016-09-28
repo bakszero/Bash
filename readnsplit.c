@@ -1,6 +1,6 @@
-
 #include <sys/wait.h>
 #include <unistd.h>
+#include <signal.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -20,10 +20,19 @@
  */
 void lsh_read_line(void)
 {
+  //Implement CTRL-D
+
+
+
   char *line = NULL;
   const char s[2] = ";";
  ssize_t bufsize = 1024; // have getline allocate a buffer for us
- getline(&line, &bufsize, stdin);
+
+ //CTRL-D if getline encounters EOF on which it returns -1
+ if(getline(&line, &bufsize, stdin)==-1){
+   printf("\n");
+   exit(0);
+ }
 
 
  sentences[0] = strtok(line,s);
