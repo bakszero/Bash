@@ -1,5 +1,6 @@
 #include <sys/wait.h>
 #include <unistd.h>
+#include <signal.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -96,15 +97,13 @@ j++;
         dup2(q[1],1);
       //  close(q[0]);
       }
-
-
       else if (i==last){
         if(count%2==0){
           dup2(q[0],0);
           //close(q[1]);
         }
         else{
-          dup2(p[0],0);
+           dup2(p[0],0);
           //close(p[1]);
         }
       }
@@ -149,9 +148,6 @@ j++;
               close(q[0]);
               close(p[1]);
             }
-
-
-
           }
 
         waitpid(pid,NULL,0);
