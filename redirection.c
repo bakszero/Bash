@@ -1,6 +1,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <signal.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/utsname.h>
@@ -77,7 +78,7 @@ if(flag2==1){
   }
 
   dup2(fd2,1);
-  close(fd2);
+close(fd2);
 }
 
 if(flag3==1){
