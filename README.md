@@ -3,9 +3,8 @@ Author: Bakhtiyar Syed
 Overview:
 
 This is a standalone shell(equivalent to BASH) written purely in C.
-The commands are executed via system calls.
+The commands are executed via system calls (POSIX standard).
 
-**Will add more features soon.**
 
 
 Instructions:
