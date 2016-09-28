@@ -1,4 +1,4 @@
-
+#include <signal.h>
 #include <sys/wait.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -109,25 +109,6 @@ int lsh_cd(char **args)
 }
 
 
-
-  //char * i;
-/*  if (strncmp(args[1],"\"",1)==0 && args[2]!=NULL)
-    {
-      printf("%s ", args[1]+1 );
-      /*char * i = args[2];
-      int j =3;
-
-      while(1){
-        i = args[j];
-        printf(" %s",i );
-
-        if(i==NULL)
-          break;
-
-      }
-   }*/
-
-
 /**
    @brief Builtin command: exit.
    @param args List of args.  Not examined.
@@ -137,4 +118,89 @@ int lsh_exit(char **args)
 {
   if (strcmp(args[0],"quit")==0)
     return 0;
+}
+
+
+
+
+int lsh_jobs(char **args)
+{
+  int loop=1;
+  //printf("no is %d\n",no );
+  while(loop<=no){
+
+    if(a[loop]!=NULL){
+    printf("[%d] ", loop );
+    printf("%s ", (a[loop])->arr );
+    printf("[%d]\n", (a[loop])->num );
+    //printf("\n");
+  }
+    loop++;
+}
+
+return 1;
+}
+
+
+
+int lsh_kjob(char **args)
+{
+  if (args[1]==NULL || args[2]==NULL)
+    perror("Usage: kjob [process no.] [signal no.]");
+
+  int signo = atoi (args[2]);
+  int procno =atoi  (args[1]);
+
+  //Fix segmentation fault
+  if(a[procno]==NULL){
+    printf("The process does not exist.\n" );
+    return 1;
+  }
+  int id = (a[procno])->num;
+  a[procno]=NULL;
+  //printf("procno is %d\n",procno );
+  //printf("signo is %d\n",signo );
+kill(id, signo);
+
+
+  return 1;
+}
+
+
+
+int lsh_killallbg(char **args)
+{
+
+  int loop=1;
+  while(loop<=no)
+  {
+    if(a[loop]!=NULL)
+    {
+      kill((a[loop])->num,9);
+      a[loop]=NULL;
+    }
+    loop++;
+  }
+
+  return 1;
+
+}
+
+int lsh_fg(char **args)
+{
+  int loop;
+
+  if(args[1]==NULL){
+    printf("Usage: fg [process no.]\n");
+  }
+  int procno =atoi(args[1]);
+  if(a[procno]==NULL){
+    printf("ERROR: No such background process number exists.\n");
+    return 1;
+  }
+
+
+  kill((a[procno]->num),18);
+  a[procno]=NULL;
+  return 1;
 }
