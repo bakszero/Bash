@@ -6,13 +6,15 @@
 #include <sys/utsname.h>
 #include <string.h>
 #include <fcntl.h>
+#include <signal.h>
 #include <pwd.h>
 #include "shell.h"
 
 
+//extern int no;
 //Declaring the builtin functions and pointer to function
-char *builtin_str[]= { "cd", "pwd", "echo", "quit"};
-int (*builtin_func[]) (char **) = { &lsh_cd, &lsh_pwd, &lsh_echo, &lsh_exit};
+char *builtin_str[]= { "cd", "pwd", "echo", "quit", "jobs", "kjob" , "killallbg", "fg"};
+int (*builtin_func[]) (char **) = { &lsh_cd, &lsh_pwd, &lsh_echo, &lsh_exit, &lsh_jobs, &lsh_kjob, &lsh_killallbg, &lsh_fg};
 
 //Return the no. of builtin
 int lsh_num_builtins() {
@@ -29,9 +31,11 @@ int lsh_num_builtins() {
  */
 int lsh_launch(char **args)
 {
+
   pid_t pid;
   int status;
   char ampersand[2]="&";
+
 
 
   int i=0;
@@ -57,10 +61,15 @@ LABEL:
 
  pid = fork();
 
+  //Parent with & background
   if (pid!=0 && last!=NULL && strncmp(last,ampersand, 1) ==0){
-    signal(SIGCHLD, sigh);
 
-    // Parent process
+
+    signal(SIGCHLD, sigh);
+    no++;
+    a[no] = (process *) malloc(sizeof(process));
+    (a[no])->num = pid;
+    strcpy((a[no])->arr, args[0]);
     return 1;
   }
 
@@ -102,6 +111,7 @@ int lsh_execute(char **args)
 
   if (args[0] == NULL) {
     // An empty command was entered.
+    printf("\n");
     return 1;
   }
 
