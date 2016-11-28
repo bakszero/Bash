@@ -1,13 +1,13 @@
 Author: Bakhtiyar Syed
 
-Overview:
+**Overview:**
 
 This is a standalone shell(equivalent to BASH) written purely in C.
 The commands are executed via system calls (POSIX standard).
 
 
 
-Instructions:
+**Instructions:**
 
 1. Open the directory.
 2. Generate the object file by using the Makefile given. This has to be done by typing 'make' (without quotes) on the command line.
